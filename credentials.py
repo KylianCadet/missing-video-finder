@@ -14,6 +14,7 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
+GOOGLE_REVOKE_URL = 'https://oauth2.googleapis.com/revoke'
 CREDENTIALS_FILE = '.credentials'
 
 
@@ -85,6 +86,13 @@ class Credentials():
     def _save_refresh_token(self):
         with open(CREDENTIALS_FILE, 'wb') as fd:
             pickle.dump(self._refresh_token, fd)
+    
+    def revoke(self):
+        data = {
+            'token': self._refresh_token
+        }
+        r = requests.post(GOOGLE_REVOKE_URL, params=data)
+        self._delete_credentials()
 
     def get_access_token(self):
         return self._access_token
