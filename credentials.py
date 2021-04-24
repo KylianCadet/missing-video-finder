@@ -56,19 +56,18 @@ class Credentials():
         self._load_credentials()
 
     def _refresh_access_token(self):
-        data = {
+        params = {
             'client_id': CLIENT_ID,
             'client_secret': CLIENT_SECRET,
             'refresh_token': self._refresh_token,
             'grant_type': 'refresh_token',
         }
-        r = requests.post(GOOGLE_TOKEN_URL, params=data)
+        r = requests.post(GOOGLE_TOKEN_URL, params=params)
         if (r.status_code != 200):
             self._delete_credentials()
             return
         credentials = r.json()
         self._access_token = credentials['access_token']
-
 
     def _delete_credentials(self):
         os.remove(CREDENTIALS_FILE) if os.path.exists(CREDENTIALS_FILE) else None
@@ -86,7 +85,7 @@ class Credentials():
     def _save_refresh_token(self):
         with open(CREDENTIALS_FILE, 'wb') as fd:
             pickle.dump(self._refresh_token, fd)
-    
+
     def revoke(self):
         data = {
             'token': self._refresh_token
@@ -102,33 +101,28 @@ class Credentials():
         # add state for security ?
         # https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1
         # Get auth code with user conscentement
-        data = {
+        params = {
             'client_id': CLIENT_ID,
             'redirect_uri': 'http://localhost:{}/'.format(server.get_port()),
             'response_type': 'code',
             'scope': 'https://www.googleapis.com/auth/youtube.readonly',
             'access_type': 'offline',
         }
-        r = requests.Request('GET', GOOGLE_AUTH_URL, params=data).prepare()
+        r = requests.Request('GET', GOOGLE_AUTH_URL, params=params).prepare()
         webbrowser.open(r.url, new=2)
         server.handle()
         auth_code = server.get_auth_code()
 
         # Get access + refresh token
-        data = {
+        params = {
             'client_id': CLIENT_ID,
             'client_secret': CLIENT_SECRET,
             'code': auth_code,
             'grant_type': 'authorization_code',
             'redirect_uri': 'http://localhost:{}/'.format(server.get_port()),
         }
-        r = requests.post(GOOGLE_TOKEN_URL, params=data)
+        r = requests.post(GOOGLE_TOKEN_URL, params=params)
         credentials = r.json()
         self._access_token = credentials['access_token']
         self._refresh_token = credentials['refresh_token']
         self._save_refresh_token()
-
-
-credentials = Credentials()
-if credentials.get_access_token() is None:
-    credentials.oauth2_flow()
