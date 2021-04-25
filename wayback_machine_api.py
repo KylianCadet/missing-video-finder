@@ -26,7 +26,7 @@ class WaybackMachineAPI():
                 continue
             name = name[1]
             name = name.split('</title>')[0]
-            if name == 'YouTube':
+            if name == 'YouTube' or name == 'GOOGLE - YouTube':
                 continue
             return name
 
