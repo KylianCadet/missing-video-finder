@@ -5,6 +5,8 @@ import requests
 
 YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3'
 
+# https://developers.google.com/youtube/v3/docs youtube api doc
+
 
 class YoutubeAPI():
     def __init__(self, credentials: Credentials):
@@ -54,8 +56,10 @@ class YoutubeAPI():
             if page_token is None:
                 return res
 
+
 c = Credentials()
 y = YoutubeAPI(c)
+
 
 def exec_api(fn, *args):
     try:

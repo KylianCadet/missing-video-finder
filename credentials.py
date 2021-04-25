@@ -18,6 +18,8 @@ GOOGLE_REVOKE_URL = 'https://oauth2.googleapis.com/revoke'
 CREDENTIALS_FILE = '.credentials'
 
 
+# https://developers.google.com/identity/protocols/oauth2/scopes#youtube google api youtube scopes
+
 class Server():
     HOST = ""
     PORT = 0
