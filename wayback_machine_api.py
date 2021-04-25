@@ -28,7 +28,8 @@ class WaybackMachineAPI():
             name = name.split('</title>')[0]
             if name == 'YouTube' or name == 'GOOGLE - YouTube':
                 continue
-            return name
+            # delete the ' - Youtube' string
+            return name[:-10]
 
     def get_snapshots(self, url):
         year = 2000
@@ -72,74 +73,3 @@ class WaybackMachineAPI():
     def get_youtube_snapshot(self, youtube_id):
         url = 'https://www.youtube.com/watch?v=' + youtube_id
         return self.get_snapshots(url)
-
-
-w = WaybackMachineAPI()
-
-ids = [
-    'TNHsw8TLf6Y',
-    'TVl9qR89bYk',
-    'S5FpomvfaBo',
-    'VNWxDa_RS6c',
-    'SX5RJ4OgvPM',
-    'Ejxtu8Fkdso',
-    'NO_eODrvBlg',
-    'lOUCvNNYktM',
-    'NMfoV9zdiiQ',
-    'HbSE6jGVd5U',
-    'HbSE6jGVd5U',
-    'Mbrjzggz26w',
-    'lLlSrkVsjqs',
-    'S3x2Ic3lCEA',
-    '8UfMvtTT7Oc',
-    'w-b1y8IC4zQ',
-    'qFroEnGNoeg',
-    'PXI1SgHSteo',
-    '4tU5O7wFFM8',
-    '1oQWvoXMWME',
-    'SlbBxWeBlDg',
-    'HNFV6UhBYN0',
-    'Xgt6ONSd7OQ',
-    '8EmxAhduLCU',
-    'P2eagqSw8V0',
-    '3hyPkFGPa48',
-    '251UF6gFCIk',
-    'BuoaGPlWr-4',
-    'Sfnh4XJ64fE',
-    'JcQ_rv_kTxA',
-    'gNZjTAA97Zs',
-    'YlF63vbrfeM',
-    'Xrvciw8D5I0',
-    'TNHsw8TLf6Y',
-    'BAs8weim90M',
-    'obkm4J-mmOc',
-    '4tUxTkXYazk',
-    'dJ-3_XM2rVI',
-    'btCKtQmN49w',
-    'Epgvx4Zq_xY',
-    '9eBfa9nNzvk',
-    'J5wnlnhIL2s',
-    'LzVjuQj8Bsg',
-    '-n4lvh_NZDw',
-    '758Y3qGecX4',
-    'jTrzAUWIChs',
-    'p0vMu5ZwSCU',
-    'dHDWtJpvURU',
-    'wIyETQyuwAc',
-    'l7ZlSHGFfdc',
-    'iXYmFqEkCGQ',
-    'MgbDWmtn_9o',
-    'BdF90Czu9UU',
-    'Sp4Sp2X-Rko',
-    '7Lo0EeWoXis',
-    'dP9Wp6QVbsk',
-    'gNJ-3blp56w',
-    'VsVhdth8QLw',
-    '8iLI0z7VY6M',
-    'h7NbxyKXLC8',
-    'd3MjwnhKLsc']
-
-for id in ids:
-    a = w.get_youtube_snapshot(id)
-    name = w.resolve_videoname_from_snapshot(a)
-    print(name)

@@ -1,6 +1,6 @@
 from credentials import Credentials
 from exception import *
-from utils import filter_deleted_video, get_id_from_video
+from utils import filter_deleted_videos, get_id_from_videos
 import requests
 
 YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3'
@@ -52,29 +52,5 @@ class YoutubeAPI():
             r = r.json()
             res += r['items']
             page_token = r['nextPageToken'] if r.get('nextPageToken') else None
-            print(page_token)
             if page_token is None:
                 return res
-
-
-c = Credentials()
-y = YoutubeAPI(c)
-
-
-def exec_api(fn, *args):
-    try:
-        data = fn(*args)
-        return data
-    except NotAuthenticated:
-        return {'error': 'not auth'}
-    except APIError:
-        return {'error': 'api error'}
-
-
-data = exec_api(y.list_playlists)
-playlist_id = data['items'][0]['id']
-print(playlist_id)
-videos = exec_api(y.list_playlist_item, playlist_id)
-filtered_videos = filter_deleted_video(videos)
-ids = get_id_from_video(filtered_videos)
-print(ids)
