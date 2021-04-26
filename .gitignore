@@ -2,3 +2,5 @@ myenv
 .env
 .credentials
 .vscode
+widgets/__pycache__/
+__pycache__/
