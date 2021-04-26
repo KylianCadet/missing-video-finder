@@ -3,7 +3,6 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from credentials import Credentials
-from wayback_machine_api import WaybackMachineAPI
 from youtube_api import YoutubeAPI
 from utils import filter_deleted_videos, exec_api
 from thread import Thread
@@ -12,7 +11,6 @@ from widgets.playlist import PlaylistWidget
 
 credentials = Credentials()
 youtube_api = YoutubeAPI(credentials)
-wayback_machine_api = WaybackMachineAPI()
 
 
 class Window(QMainWindow):
