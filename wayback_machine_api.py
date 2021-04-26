@@ -4,9 +4,9 @@ import datetime
 WAYBACK_API_URL = 'http://archive.org/wayback/available'
 
 
-def do_request(url):
+def do_request(url, params=None):
     try:
-        r = requests.get(url)
+        r = requests.get(url, params=params)
         return r
     except:
         return None
@@ -45,7 +45,9 @@ class WaybackMachineAPI():
                 'url': url,
                 'timestamp': str(year).zfill(4) + str(month).zfill(2)
             }
-            r = requests.get(WAYBACK_API_URL, params=params)
+            r = do_request(WAYBACK_API_URL, params=params)
+            if r is None:
+                continue
             if r.status_code != 200:
                 break
             r = r.json()
