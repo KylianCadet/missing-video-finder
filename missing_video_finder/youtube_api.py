@@ -50,7 +50,6 @@ class YoutubeAPI():
             }
             r = requests.get(YOUTUBE_API_URL + '/playlistItems', params=params, headers=headers)
             if r.status_code != 200:
-                print(r.text)
                 raise APIError
             r = r.json()
             res += r['items']
