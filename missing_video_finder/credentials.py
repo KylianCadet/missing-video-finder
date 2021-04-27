@@ -1,5 +1,4 @@
 from urllib.parse import urlparse, parse_qs
-from dotenv import load_dotenv
 import requests
 import os
 import webbrowser
@@ -8,10 +7,12 @@ import pickle
 import json
 import datetime
 
+from dotenv import load_dotenv
 load_dotenv('.env')
-
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+API_KEY = os.getenv('API_KEY')
+
 GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
 GOOGLE_REVOKE_URL = 'https://oauth2.googleapis.com/revoke'

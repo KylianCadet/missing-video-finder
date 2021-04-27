@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from utils import filter_deleted_videos, get_id_from_videos
-from wayback_machine_api import WaybackMachineAPI
-from thread import Thread
+from missing_video_finder.utils import filter_deleted_videos, get_id_from_videos
+from missing_video_finder.wayback_machine_api import WaybackMachineAPI
+from missing_video_finder.thread import Thread
 
 wayback_machine_api = WaybackMachineAPI()
 

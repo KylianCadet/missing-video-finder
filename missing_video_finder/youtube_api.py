@@ -1,6 +1,7 @@
-from credentials import Credentials
-from exception import *
-from utils import filter_deleted_videos, get_id_from_videos
+from missing_video_finder.credentials import Credentials
+from missing_video_finder.credentials import API_KEY
+from missing_video_finder.exception import *
+from missing_video_finder.utils import filter_deleted_videos, get_id_from_videos
 import requests
 
 YOUTUBE_API_URL = 'https://www.googleapis.com/youtube/v3'
@@ -36,11 +37,12 @@ class YoutubeAPI():
     def list_playlist_item(self, playlist_id):
         headers = {
             'Authorization': 'Bearer ' + self._credentials.get_access_token()
-        }
+        } if self._credentials.get_access_token() else {}
         page_token = None
         res = []
         while True:
             params = {
+                'key': API_KEY,
                 'part': 'id, snippet, status, contentDetails',
                 'playlistId': playlist_id,
                 'maxResults': 50,
@@ -48,6 +50,7 @@ class YoutubeAPI():
             }
             r = requests.get(YOUTUBE_API_URL + '/playlistItems', params=params, headers=headers)
             if r.status_code != 200:
+                print(r.text)
                 raise APIError
             r = r.json()
             res += r['items']

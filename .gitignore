@@ -1,6 +1,9 @@
-myenv
 .env
 .credentials
 .vscode
 widgets/__pycache__/
 __pycache__/
+build/
+dist/
+env
+cli.spec

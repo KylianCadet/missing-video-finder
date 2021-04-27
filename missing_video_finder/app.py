@@ -2,12 +2,12 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from credentials import Credentials
-from youtube_api import YoutubeAPI
-from utils import filter_deleted_videos, exec_api
-from thread import Thread
-from widgets.video import VideoWidget
-from widgets.playlist import PlaylistWidget
+from missing_video_finder.credentials import Credentials
+from missing_video_finder.youtube_api import YoutubeAPI
+from missing_video_finder.utils import filter_deleted_videos, exec_api
+from missing_video_finder.thread import Thread
+from missing_video_finder.widgets.video import VideoWidget
+from missing_video_finder.widgets.playlist import PlaylistWidget
 
 credentials = Credentials()
 youtube_api = YoutubeAPI(credentials)
@@ -63,20 +63,22 @@ class Window(QMainWindow):
         self.perso_playlist_thread.start()
 
     def oauth_connect_callback(self):
-        self.oauth_btn.setEnabled(True)
         self.oauth_btn.setText("Revoke Google")
+        self.oauth_btn.disconnect()
         self.oauth_btn.clicked.connect(self.revoke_access)
         self.fetch_personal_playlists()
+        self.oauth_btn.setEnabled(True)
 
     def oauth_connect(self):
         self.oauth_btn.setEnabled(False)
-        self.oauth_thread = Thread(credentials.oauth2_flow, self.oauth_callback)
+        self.oauth_thread = Thread(credentials.oauth2_flow, self.oauth_connect_callback)
         self.oauth_thread.start()
 
     def revoke_access_callback(self):
-        self.oauth_btn.setEnabled(True)
         self.oauth_btn.setText("Google oauth")
+        self.oauth_btn.disconnect()
         self.oauth_btn.clicked.connect(self.oauth_connect)
+        self.oauth_btn.setEnabled(True)
 
     def revoke_access(self):
         self.oauth_btn.setEnabled(False)
@@ -140,8 +142,11 @@ class Window(QMainWindow):
         self.show()
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
     w = Window(app)
     w._show()
     sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,4 @@
-from exception import *
+from missing_video_finder.exception import *
 
 def filter_deleted_videos(videos):
     return [video for video in videos if video['status']['privacyStatus'] != 'public']
