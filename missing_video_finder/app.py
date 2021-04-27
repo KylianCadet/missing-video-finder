@@ -2,15 +2,15 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-from missing_video_finder.credentials import Credentials
+from missing_video_finder.youtube_credentials import YoutubeCredentials
 from missing_video_finder.youtube_api import YoutubeAPI
 from missing_video_finder.utils import filter_deleted_videos, exec_api
 from missing_video_finder.thread import Thread
 from missing_video_finder.widgets.video import VideoWidget
 from missing_video_finder.widgets.playlist import PlaylistWidget
 
-credentials = Credentials()
-youtube_api = YoutubeAPI(credentials)
+youtube_credentials = YoutubeCredentials()
+youtube_api = YoutubeAPI(youtube_credentials)
 
 
 class Window(QMainWindow):
@@ -71,7 +71,7 @@ class Window(QMainWindow):
 
     def oauth_connect(self):
         self.oauth_btn.setEnabled(False)
-        self.oauth_thread = Thread(credentials.oauth2_flow, self.oauth_connect_callback)
+        self.oauth_thread = Thread(youtube_credentials.oauth2_flow, self.oauth_connect_callback)
         self.oauth_thread.start()
 
     def revoke_access_callback(self):
@@ -83,7 +83,7 @@ class Window(QMainWindow):
     def revoke_access(self):
         self.oauth_btn.setEnabled(False)
         self.personal_playlists.clear()
-        self.revoke_thread = Thread(credentials.revoke, self.revoke_access_callback)
+        self.revoke_thread = Thread(youtube_credentials.revoke, self.revoke_access_callback)
         self.revoke_thread.start()
 
     def _show(self):
@@ -120,7 +120,7 @@ class Window(QMainWindow):
         # Oauth button (hbox)
         hbox_oauth_btn = QHBoxLayout()
         vbox_control_button_right.addLayout(hbox_oauth_btn)
-        if credentials.get_access_token() is None:
+        if youtube_credentials.get_access_token() is None:
             self.oauth_btn = QPushButton("Google oauth")
             self.oauth_btn.clicked.connect(self.oauth_connect)
         else:
