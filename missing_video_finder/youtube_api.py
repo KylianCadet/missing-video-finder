@@ -15,7 +15,7 @@ class YoutubeAPI():
 
     def check_credentials(func):
         def inner(self, *args, **kwargs):
-            if self._credentials.get_access_token() is None:
+            if self._youtube_credentials.get_access_token() is None:
                 raise NotAuthenticated
             return func(self)
         return inner
