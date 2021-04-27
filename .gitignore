@@ -1,9 +1,9 @@
 .env
 .credentials
 .vscode
-widgets/__pycache__/
-__pycache__/
+devenv/
 build/
 dist/
-env
+env/
 cli.spec
+__pycache__/
