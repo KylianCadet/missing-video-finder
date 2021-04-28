@@ -30,6 +30,7 @@ class Window(QMainWindow):
             lambda_widget_item = QListWidgetItem(self.missing_video_list)
             self.missing_video_list.addItem(lambda_widget_item)
             video_widget_item = VideoWidget(video)
+            video_widget_item.copy_clipboard.connect(self.copy_clipboard)
             lambda_widget_item.setSizeHint(video_widget_item.minimumSizeHint())
             self.missing_video_list.setItemWidget(lambda_widget_item, video_widget_item)
 
@@ -42,6 +43,9 @@ class Window(QMainWindow):
         self.playlist_thread = Thread(lambda: exec_api(youtube_api.list_playlist_item, playlist_id), self.fetch_videos_in_playlist_callback)
         self.playlist_thread.start()
 
+    def copy_clipboard(self, text):
+        self.app.clipboard().setText(text)
+
     def fetch_personal_playlists_callback(self, data):
         self.oauth_btn.setEnabled(True)
         data = data['data']
@@ -52,10 +56,10 @@ class Window(QMainWindow):
         for playlist in data:
             lambda_widget_item = QListWidgetItem(self.personal_playlists)
             self.personal_playlists.addItem(lambda_widget_item)
-            video_widget_item = PlaylistWidget(playlist, self.playlist_id_input)
-            lambda_widget_item.setSizeHint(video_widget_item.minimumSizeHint())
-            lambda_widget_item.get_playlist_id = video_widget_item.get_playlist_id
-            self.personal_playlists.setItemWidget(lambda_widget_item, video_widget_item)
+            playlist_widget_item = PlaylistWidget(playlist, self.playlist_id_input)
+            lambda_widget_item.setSizeHint(playlist_widget_item.minimumSizeHint())
+            lambda_widget_item.get_playlist_id = playlist_widget_item.get_playlist_id
+            self.personal_playlists.setItemWidget(lambda_widget_item, playlist_widget_item)
 
     def fetch_personal_playlists(self):
         self.oauth_btn.setEnabled(False)
@@ -131,6 +135,7 @@ class Window(QMainWindow):
         hbox_oauth_btn.addWidget(self.oauth_btn)
 
         self.missing_video_list = QListWidget()
+        self.missing_video_list.setEditTriggers(QAbstractItemView.AnyKeyPressed)
         vbox_content_left.addWidget(self.missing_video_list)
 
         self.personal_playlists = QListWidget()
