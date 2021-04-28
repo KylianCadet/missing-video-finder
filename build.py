@@ -27,7 +27,7 @@ credentials_file.write(s)
 credentials_file.truncate()
 credentials_file.close()
 
-os.system("pyinstaller --onefile cli.spec")
+os.system("pyinstaller --onefile --icon=data/img/icon.png --noconsole cli.spec")
 
 credentials_file = open('./missing_video_finder/credentials.py', 'w+')
 credentials_file.seek(0)
