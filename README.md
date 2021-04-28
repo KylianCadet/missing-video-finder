@@ -2,7 +2,7 @@
 
 A Minimal GUI to find **deleted** or **private** videos in youtube playlists
 
-![app screenshot](https://raw.githubusercontent.com/KylianCadet/missing-video-finder/master/doc/img/missing-video-finder.png)
+![app screenshot](https://raw.githubusercontent.com/KylianCadet/missing-video-finder/master/docs/img/missing-video-finder.png)
 
 ## Key Features
 - Find lists of deleted or private videos in a playlist and resolve their names
