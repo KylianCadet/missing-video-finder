@@ -152,7 +152,10 @@ class Window(QMainWindow):
         vbox_content_right.addWidget(self.personal_playlists)
 
         self.setGeometry(10, 10, 800, 480)
-        self.setWindowTitle("PyQt")
+        resolution = QDesktopWidget().screenGeometry()
+        self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
+                  (resolution.height() / 2) - (self.frameSize().height() / 2)) 
+        self.setWindowTitle("Missing Video Finder")
         self.show()
 
 
