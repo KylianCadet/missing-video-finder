@@ -1,4 +1,5 @@
 from missing_video_finder.exception import *
+import os
 
 def filter_deleted_videos(videos):
     return [video for video in videos if video['status']['privacyStatus'] != 'public']
@@ -14,3 +15,9 @@ def exec_api(fn, *args):
         return {'error': 'not auth'}
     except APIError:
         return {'error': 'api error'}
+
+
+def resource_path(relative_path):
+     if hasattr(sys, '_MEIPASS'):
+         return os.path.join(sys._MEIPASS, relative_path)
+     return os.path.join(os.path.abspath("."), relative_path)

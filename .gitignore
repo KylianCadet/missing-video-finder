@@ -5,5 +5,4 @@ devenv/
 build/
 dist/
 env/
-cli.spec
 __pycache__/

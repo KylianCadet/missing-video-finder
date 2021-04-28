@@ -4,14 +4,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from missing_video_finder.youtube_credentials import YoutubeCredentials
 from missing_video_finder.youtube_api import YoutubeAPI
-from missing_video_finder.utils import filter_deleted_videos, exec_api
+from missing_video_finder.utils import filter_deleted_videos, exec_api, resource_path
 from missing_video_finder.thread import Thread
 from missing_video_finder.widgets.video import VideoWidget
 from missing_video_finder.widgets.playlist import PlaylistWidget
 
 youtube_credentials = YoutubeCredentials()
 youtube_api = YoutubeAPI(youtube_credentials)
-
 
 class Window(QMainWindow):
     def __init__(self, app, parent=None):
@@ -156,8 +155,8 @@ class Window(QMainWindow):
         self.move((resolution.width() / 2) - (self.frameSize().width() / 2),
                   (resolution.height() / 2) - (self.frameSize().height() / 2)) 
         self.setWindowTitle("Missing Video Finder")
+        self.setWindowIcon(QIcon(resource_path('./data/img/icon.png')))
         self.show()
-
 
 def main():
     app = QApplication(sys.argv)
