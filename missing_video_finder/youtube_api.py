@@ -35,6 +35,8 @@ class YoutubeAPI():
         return r.json()
 
     def list_playlist_item(self, playlist_id):
+        if playlist_id.__contains__('https://www.youtube.com/playlist?list='):
+            playlist_id = playlist_id.split('=')[1]
         headers = {
             'Authorization': 'Bearer ' + self._youtube_credentials.get_access_token()
         } if self._youtube_credentials.get_access_token() else {}
