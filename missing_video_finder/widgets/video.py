@@ -3,7 +3,6 @@ from PyQt5.QtCore import *
 from missing_video_finder.utils import get_id_from_videos
 from missing_video_finder.wayback_machine_api import WaybackMachineAPI
 from missing_video_finder.thread import Thread
-import html
 
 wayback_machine_api = WaybackMachineAPI()
 
@@ -12,13 +11,12 @@ class VideoWidget(QWidget):
 
     def fetch_callback(self, data):
         name = data['data']
-        name = html.unescape(name)
         self.resolved_label.setText(name)
         self.resolved_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         self.btn.setEnabled(True)
         self.copy_btn = QPushButton('Copy')
         self.copy_btn.clicked.connect(lambda: self.copy_clipboard.emit(self.resolved_label.text()))
-        self.main_layout.addWidget(self.copy_btn)
+        self.resolve_layout.addWidget(self.copy_btn, alignment=Qt.AlignRight)
 
     def fetch_resolved_video_name(self):
         self.btn.setEnabled(False)
@@ -38,5 +36,7 @@ class VideoWidget(QWidget):
         self.main_layout.addWidget(label, stretch=10)
         self.main_layout.addWidget(self.btn, stretch=10)
         self.main_layout.addStretch()
-        self.main_layout.addWidget(self.resolved_label, stretch=20, alignment=Qt.AlignRight)
+        self.resolve_layout = QHBoxLayout()
+        self.resolve_layout.addWidget(self.resolved_label, stretch=100, alignment=Qt.AlignRight)
+        self.main_layout.addLayout(self.resolve_layout, stretch=20)
         self.setLayout(self.main_layout)

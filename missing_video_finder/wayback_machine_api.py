@@ -1,5 +1,6 @@
 import requests
 import datetime
+import html
 
 WAYBACK_API_URL = 'http://archive.org/wayback/available'
 
@@ -28,6 +29,7 @@ class WaybackMachineAPI():
             name = name.split('</title>')[0]
             if name == 'YouTube' or name == 'GOOGLE - YouTube':
                 continue
+            name = html.unescape(name)
             # delete the ' - Youtube' string
             return name[:-10]
 
