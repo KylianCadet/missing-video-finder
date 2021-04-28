@@ -135,10 +135,19 @@ class Window(QMainWindow):
         hbox_oauth_btn.addWidget(self.oauth_btn)
 
         self.missing_video_list = QListWidget()
-        self.missing_video_list.setEditTriggers(QAbstractItemView.AnyKeyPressed)
+        self.missing_video_list.setStyleSheet("QListView::item:selected"
+                                  "{"
+                                  "border : 1px solid white;"
+                                  "}"
+                                  )
         vbox_content_left.addWidget(self.missing_video_list)
 
         self.personal_playlists = QListWidget()
+        self.personal_playlists.setStyleSheet("QListView::item:selected"
+                                  "{"
+                                  "border : 1px solid white;"
+                                  "}"
+                                  )
         self.personal_playlists.itemClicked.connect(lambda x: self.playlist_id_input.setText(x.get_playlist_id()))
         vbox_content_right.addWidget(self.personal_playlists)
 
